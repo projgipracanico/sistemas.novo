@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LojinhaDaGi</title>
+
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: beige;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: rgb(91, 15, 15);
+      }
+
+      h2{
+        text-align: center;
+        margin-bottom: 40px;
+        color: brown;
+
+      }
+
+      .produtos-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .produto {
+        background-color: brown;
+        border: 1px solid #470404;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform0.2s;
+
+      }
+
+      .produto:hover {
+        transform: scale(1.02);
+      }
+
+      .imagem-produto {
+        width: 100%;
+        height: 150px;
+        background-color: #470404;
+        border-radius: 4px;
+        margin-bottom: 15px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .imagem-produto img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .descricao {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: rgb(70, 5, 5);
+      }
+
+      .preco {
+        font-weight: bold;
+        color: rgb(7, 177, 177);
+        margin-bottom: 15px;
+      }
+
+      .botao-carrinho {
+        background-color: bisque;
+        color: rgb(1, 203, 203);
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .botao-carrinho:hover {
+        background-color: bisque;
+
+      }
+
+      .img-logo{
+    
+        border-radius: 4px;
+        margin-bottom: 15px;
+        margin-left: 36%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+
+      #btn-carrinho {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color:#470404;
+        border: none;
+        color:aqua;
+        padding: 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        font-size: 20px;
+        z-index: 1001;
+
+      }
+
+      #btn-carrinho:hover {
+        background-color: #470404;
+      }
+
+      #contador-quantidade {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: #470404;
+        color: rgb(10, 88, 85);
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        display: none;
+        font-weight: bold;
+
+      }
+
+      #carrinho-lateral {
+        position: fixed;
+        top: 0;
+        right: -350px;
+        width: 350px;
+        height: 100%;
+        background-color: bisque;
+        box-shadow: -3px 0 6px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        box-sizing: border-box;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        background-color: bisque;
+      }
+
+      #carrinho-lateral.aberto {
+        right: 0;
+      }
+
+      #carrinho-lateral h2 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: rgb(2, 102, 102);
+      }
+
+      #itens-carrinho {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 15px;
+      }
+
+      .item-carrinho {
+        display: flexbox;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+        padding-right: 10px;
+      }
+
+      .item-carrinho img {
+        width: 70px;
+        height: 70px;
+
+        object-fit: contain;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      .item-carrinho-info {
+        flex: 1;
+      }
+
+      .item-carrinho-info .descricao {
+        font-weight: bold;
+        margin: 0 0 5px 0;
+      }
+
+      .item-carrinho-info .preco {
+        margin: 0 0 5px 0;
+        font-size: 14px;
+        color: rgb(4, 88, 88);
+      }
+
+      .quantidade-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-quantidade {
+        background-color: #470404;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        color: rgb(36, 252, 252);
+      }
+
+      .btn-quantidade:hover {
+        background-color: #470404;
+      }
+      
+        #total-carrinho {
+          font-weight: bold;
+          font-size: 18px;
+          margin-bottom: 10px;
+          color: #470404;
+        }
+
+        #btn-finalizar {
+          margin-top: 15px;
+          width: 100%;
+          padding: 12px;
+          background-color: aqua;
+          color: #470404;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor:pointer ;
+          
+        }
+
+        #btn-finalizar:hover {
+          background-color: aqua;
+        }
+
+      
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+<img src="img/logo-removebg-preview.png"  class="img-logo">
+
+    <h1>BEM-VINDA(O), A LOJINHA DA GI!</h1>
+    <H2>Catálogo de Produtos</H2>
+
+    <button id="btn-carrinho" aria-label="Abrir Carrinho">
+      🛒
+
+      <span id="contador-quantidade">0</span>
+
+    </button>
+
+    <aside id="carrinho-lateral" aria-label="Carrinho de Compras">
+      <h2>Seu Carrinho</h2>
+      <div id="itens-carrinho"></div>
+      <div id="total-carrinho">Total: R$ 0,00</div>
+      <button id="btn-finalizar">Finalizar Compra</button>
+
+    </aside>
+
+
+
+
+    <div class="produtos-container">
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/brincoscereja.jpg" ></div>
+        <div class="descricao">Produto 1 - Brincos em formato de cereja</div>
+        <div class="preco">R$ 27,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/bolsa.jpg" ></div>
+        <div class="descricao">Produto 2 - Bolsa da Miu Miu </div>
+        <div class="preco">R$ 69,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/boneroxo.jpg" ></div>
+        <div class="descricao">Produto 3 - Boné lilás</div>
+        <div class="preco">R$ 21,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/bota.jpg" ></div>
+        <div class="descricao">Produto 4 - Bota cano longo</div>
+        <div class="preco">R$ 78,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/bracelete.jpg" ></div>
+        <div class="descricao">Produto 5 - Braceletes douardos</div>
+        <div class="preco">R$ 19,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/cachecolvermelho.jpg" ></div>
+        <div class="descricao">Produto 6 - Cachecol Vermelho</div>
+        <div class="preco">R$ 20,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/camisa.jpg" ></div>
+        <div class="descricao">Produto 7 - Camisa Branca</div>
+        <div class="preco">R$ 35,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/jaqueta.jpg" ></div>
+        <div class="descricao">Produto 8 - Jaqueta</div>
+        <div class="preco">R$ 79,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/lenço.jpg" ></div>
+        <div class="descricao">Produto 9 - Lenço de Cabelo </div>
+        <div class="preco">R$ 17,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/oculosmiu.jpg" ></div>
+        <div class="descricao">Produto 10 - Óculos Miu Miu</div>
+        <div class="preco">R$ 19,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/saia.jpg" ></div>
+        <div class="descricao">Produto 11 - Saia de cetim</div>
+        <div class="preco">R$ 36,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+      <div class="produto">
+        <div class="imagem-produto"><img src="img/scarpin.jpg" ></div>
+        <div class="descricao">Produto 12- Scarpin Vermelho</div>
+        <div class="preco">R$ 45,99</div>
+        <button class="botao-carrinho">Adicionar ao Carrinho</button>
+      </div>
+
+
+    </div>
+
+
+
+
+
+   
+    
+</body>
+</html>
+
+<script>
+  const btnContadorCarrinho = document.getElementById("btn-carrinho");
+  const carrinho = document.getElementById("carrinho-lateral");
+  const itensCarrinho = document.getElementById("itens-carrinho");
+  const totalCarrinho = document.getElementById("total-carrinho");
+  const contadorQuantidade = document.getElementById("contador-quantidade");
+  const btnFinalizar = document.getElementById("btn-finalizar");
+
+  let carrinhoProdutos = {};
+
+  contadorQuantidade.style.display = "none";
+
+  function formatarPreco(valor){
+      return valor.toLocaleString('pt-BR', {
+          style: "currency",
+          currency: "BRL"
+      });
+  }
+
+  function configurarBotoesAdicionarCarrinho(){
+      document.querySelectorAll(".botao-carrinho").forEach((botao, index) => {
+          botao.addEventListener("click", () => {
+              const produtoEl = botao.closest(".produto");
+
+              const descricao = produtoEl.querySelector(".descricao").textContent.trim();
+              const precoTexto = produtoEl.querySelector(".preco").textContent.trim();
+              const preco = parseFloat(precoTexto.replace('R$', '').replace('.', '').replace(',', '.'));
+              const imgEl = produtoEl.querySelector('img');
+              const imgSrc = imgEl ? imgEl.src : '';
+
+              if(carrinhoProdutos[index]){
+                  carrinhoProdutos[index].quantidade++;
+              }else{
+                  carrinhoProdutos[index] = {
+                      descricao,
+                      preco,
+                      img: imgSrc,
+                      quantidade: 1,
+                  };
+              }
+
+              atualizarCarrinho();
+              carrinho.classList.add('aberto');
+          });
+      });
+  }
+
+  function atualizarCarrinho(){
+      itensCarrinho.innerHTML = '';
+      let total = 0;
+      let quantidadeTotal = 0;
+
+      for (const id in carrinhoProdutos){
+          const item = carrinhoProdutos[id];
+          const subtotal = item.preco * item.quantidade;
+          total += subtotal;
+          quantidadeTotal += item.quantidade;
+
+          const divItem = document.createElement('div');
+          divItem.classList.add('item-carrinho')
+          divItem.innerHTML = `
+              <img src="${item.img}" alt="${item.descricao}" />
+              <div class="item-carrinho-info">
+                  <p class="descricao">${item.descricao}</p>
+                  <p class="preco">${formatarPreco(item.preco)} x <span class="quantidade">${item.quantidade}</span> = ${formatarPreco(subtotal)}</p>
+                  <div class="quantidade-container">
+                      <button class="btn-quantidade" data-id="${id}" data-acao="diminuir">-</button>
+                      <span>${item.quantidade}</span>
+                      <button class="btn-quantidade" data-id="${id}" data-acao="aumentar">+</button>
+                  </div>
+              </div>
+          `;
+          itensCarrinho.appendChild(divItem);
+      }
+
+      totalCarrinho.textContent = `Total: ${formatarPreco(total)}`;
+      contadorQuantidade.textContent = quantidadeTotal;
+      contadorQuantidade.style.display = quantidadeTotal > 0 ? 'inline-block' : 'none';
+
+      configurarBotoesQuantidade();
+  }
+
+  function configurarBotoesQuantidade(){
+      document.querySelectorAll('.btn-quantidade').forEach(btn => {
+          btn.addEventListener('click', () => {
+              const id = btn.getAttribute('data-id');
+              const acao = btn.getAttribute('data-acao');
+
+              if(acao === 'aumentar'){
+                  carrinhoProdutos[id].quantidade++; 
+              }else{
+                  carrinhoProdutos[id].quantidade--; 
+                  if(carrinhoProdutos[id].quantidade < 1){
+                      delete carrinhoProdutos[id];
+                  }
+              }
+
+              atualizarCarrinho();
+          });
+      });
+  }
+
+  function configurarBotaoAbrirFecharCarrinho(){
+      btnContadorCarrinho.addEventListener('click', () => {
+          carrinho.classList.toggle('aberto');
+      });
+  }
+
+  function configurarBotaoFinalizarCompra(){
+      btnFinalizar.addEventListener('click', () => {
+          window.location.href = "finalizar.html";
+      });
+  }
+
+  function inicializarCarrinho(){
+      configurarBotoesAdicionarCarrinho();
+      configurarBotaoAbrirFecharCarrinho();
+      configurarBotaoFinalizarCompra();
+  }
+
+  inicializarCarrinho();
+</script>
